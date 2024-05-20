@@ -4,9 +4,7 @@ import os
 from bird import Bird
 
 WIDTH, HEIGHT = 550, 800
-
 BG_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join("imgs", "bg.png")))
-BASE_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join("imgs", "base.png")))
 
 def draw_game(window, bird):
     window.blit(BG_IMG, (0,0))
