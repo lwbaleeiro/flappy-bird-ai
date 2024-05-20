@@ -32,9 +32,9 @@ class FlappyBird:
             pipe.draw(self.window)
 
         text = self.FONT.render(f"Birds alive: {len(self.birds)}", True, (255, 255, 255))
-        #text2 = self.FONT.render(f"Score: {self.score}", True, (255, 255, 255))
+        text_score = self.FONT.render(f"Score: {self.score}", True, (255, 255, 255))
         self.window.blit(text, (self.WIDTH - 10 - text.get_width(), 10))
-        #self.window.blit(text2, (self.WIDTH - 10 - text.get_width(), 10))
+        self.window.blit(text_score, (self.WIDTH - 10 - text.get_width(), 690))
 
     def jump(self, single_player=True, bird=None):
         if single_player:

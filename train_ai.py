@@ -57,6 +57,7 @@ def train_ai(genomes, neural_network):
 
         if add_pipe:
             fb_game.new_pipe()
+            fb_game.score += 1
             for genome in genomes:
                 genome.fitness += 5
 
@@ -76,11 +77,10 @@ def train_ai(genomes, neural_network):
 
         if len(fb_game.birds) == 0:
             break
-
-        # break if score gets large enough
-        '''if score > 20:
-            pickle.dump(nets[0],open("best.pickle", "wb"))
-            break'''
+        #
+        # # break if score gets large enough
+        # if fb_game.score > 40:
+        #     break
 
 
 def evaluation_genomes(genomes, config):
@@ -109,7 +109,7 @@ def run_neat(path_config):
     statistics_reporter = neat.StatisticsReporter()
     population.add_reporter(statistics_reporter)
     # Salva o estado e permite reiniciar o algoritimo em um determinado ponto, em numero de gerações.
-    population.add_reporter(neat.Checkpointer(CHECK_POINT_SAVE))
+    population.add_reporter(neat.Checkpointer(GENERATIONS))
 
     winner = population.run(evaluation_genomes, GENERATIONS)
 

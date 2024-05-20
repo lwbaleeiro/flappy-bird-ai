@@ -27,7 +27,7 @@ class Bird:
         self.height = self.y
 
     def check_ground_collision(self, base):
-        if self.y + self.image.get_height() >= base.y:
+        if self.y + self.image.get_height() >= base.y or self.y < 0:
             return True
         return False
 
