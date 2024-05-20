@@ -1,15 +1,16 @@
 import pygame
 import os
 
+
 class Bird:
     IMGS = [pygame.transform.scale2x(pygame.image.load(os.path.join("imgs", "bird1.png"))),
-             pygame.transform.scale2x(pygame.image.load(os.path.join("imgs", "bird2.png"))),
-             pygame.transform.scale2x(pygame.image.load(os.path.join("imgs", "bird3.png")))]
+            pygame.transform.scale2x(pygame.image.load(os.path.join("imgs", "bird2.png"))),
+            pygame.transform.scale2x(pygame.image.load(os.path.join("imgs", "bird3.png")))]
     MAX_ROTATION = 25
     ROTATION_VELOCITY = 20
     ANIMATION_TIME = 5
     MAX_DISPLACEMENT = 16
-    
+
     def __init__(self, x, y):
         self.x = x
         self.y = y
@@ -63,11 +64,11 @@ class Bird:
             self.image = self.IMGS[0]
             self.img_count = 0
         if self.tilt <= -80:
-            self.img = self.IMGS[1]
+            self.image = self.IMGS[1]
             self.img_count = self.ANIMATION_TIME * 2
 
         rotated_image = pygame.transform.rotate(self.image, self.tilt)
-        obj_rect = rotated_image.get_rect(center=self.image.get_rect(topleft = (self.x, self.y)).center)
+        obj_rect = rotated_image.get_rect(center=self.image.get_rect(topleft=(self.x, self.y)).center)
         window.blit(rotated_image, obj_rect.topleft)
 
     def get_mask(self):

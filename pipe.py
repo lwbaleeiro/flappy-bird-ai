@@ -30,18 +30,17 @@ class Pipe:
         window.blit(self.img_top, (self.x, self.top))
         window.blit(self.img_bottom, (self.x, self.bottom))
 
-    def collide(self, birds):
-        for bird in birds:
-            bird_mask = bird.get_mask()
-            top_mask = pygame.mask.from_surface(self.img_top)
-            bottom_mask = pygame.mask.from_surface(self.img_bottom)
+    def collide(self, bird):
+        bird_mask = bird.get_mask()
+        top_mask = pygame.mask.from_surface(self.img_top)
+        bottom_mask = pygame.mask.from_surface(self.img_bottom)
 
-            top_offset = (self.x - bird.x, self.top - round(bird.y))
-            bottom_offset = (self.x - bird.x, self.bottom - round(bird.y))
+        top_offset = (self.x - bird.x, self.top - round(bird.y))
+        bottom_offset = (self.x - bird.x, self.bottom - round(bird.y))
 
-            top_collide_point = bird_mask.overlap(top_mask, top_offset)
-            bottom_collide_point = bird_mask.overlap(bottom_mask, bottom_offset)
+        top_collide_point = bird_mask.overlap(top_mask, top_offset)
+        bottom_collide_point = bird_mask.overlap(bottom_mask, bottom_offset)
 
-            if top_collide_point or bottom_collide_point:
-                return True
+        if top_collide_point or bottom_collide_point:
+            return True
         return False
