@@ -25,6 +25,11 @@ class Bird:
         self.tick_count = 0
         self.height = self.y
 
+    def check_ground_collision(self, base):
+        if self.y + self.image.get_height() >= base.y:
+            return True
+        return False
+
     def move(self):
         self.tick_count += 1
 
