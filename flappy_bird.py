@@ -24,14 +24,17 @@ class FlappyBird:
             self.birds.append(Bird(230, 350))
 
     def draw(self):
-        self.window.blit(self.BG_IMG, (0,0))
+        self.window.blit(self.BG_IMG, (0, 0))
         self.base.draw(self.window)
         for bird in self.birds:
             bird.draw(self.window)
         for pipe in self.pipes:
             pipe.draw(self.window)
-        text = self.FONT.render(f"Score: {self.score}", True, (255, 255, 255))
+
+        text = self.FONT.render(f"Birds alive: {len(self.birds)}", True, (255, 255, 255))
+        #text2 = self.FONT.render(f"Score: {self.score}", True, (255, 255, 255))
         self.window.blit(text, (self.WIDTH - 10 - text.get_width(), 10))
+        #self.window.blit(text2, (self.WIDTH - 10 - text.get_width(), 10))
 
     def jump(self, single_player=True, bird=None):
         if single_player:
@@ -41,7 +44,7 @@ class FlappyBird:
         elif not single_player and bird:
             bird.jump()
 
-    def loop(self):
+    def loop(self):  # For single player game
 
         self.clock.tick(30)
 
@@ -65,7 +68,7 @@ class FlappyBird:
 
         if add_pipe:
             self.score += 1
-            self.pipes.append(Pipe(600))
+            self.new_pipe()
 
         for pipe in pipes_to_remove:
             self.pipes.remove(pipe)
@@ -75,3 +78,6 @@ class FlappyBird:
                 self.birds.remove(bird)
 
         self.base.move()
+
+    def new_pipe(self):
+        self.pipes.append(Pipe(600))
