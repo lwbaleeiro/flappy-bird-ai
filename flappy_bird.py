@@ -73,10 +73,6 @@ class FlappyBird:
         for pipe in pipes_to_remove:
             self.pipes.remove(pipe)
 
-        for bird in self.birds:
-            if bird.check_ground_collision(self.base):
-                self.birds.remove(bird)
-
         self.base.move()
 
     def new_pipe(self):
