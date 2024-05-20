@@ -1,11 +1,35 @@
 import pygame
-import neat
 import os
-import time
-import random
 
-WIDTH, HEIGHT = 600, 800
+from bird import Bird
 
-PIPE_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join("imgs", "pine.png")))
+WIDTH, HEIGHT = 550, 800
+
 BG_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join("imgs", "bg.png")))
 BASE_IMG = pygame.transform.scale2x(pygame.image.load(os.path.join("imgs", "base.png")))
+
+def draw_game(window, bird):
+    window.blit(BG_IMG, (0,0))
+    bird.draw(window)
+    pygame.display.update()
+
+def main():
+    window = pygame.display.set_mode((WIDTH, HEIGHT))
+    run = True
+    bird = Bird(200, 100)
+    clock = pygame.time.Clock()
+
+    while run:
+        clock.tick(30)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+
+        #bird.move()
+        draw_game(window, bird)
+
+    pygame.quit()
+    quit()
+
+if __name__ == "__main__":
+    main()
