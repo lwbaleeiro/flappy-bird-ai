@@ -8,7 +8,7 @@ class Base:
     WIDTH = BASE_IMG.get_width()
 
     def __init__(self, y):
-        self.y
+        self.y = y
         self.x1 = 0
         self.x2 = self.WIDTH
 
