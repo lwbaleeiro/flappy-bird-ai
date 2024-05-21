@@ -1,19 +1,18 @@
 import os
 import neat
 import pygame
-from flappy_bird import FlappyBird
+import visualize
 import pickle
+from flappy_bird import FlappyBird
 
-
-GENERATIONS = 50
+GENERATIONS = 10
 CHECK_POINT_SAVE = 5
 
 
 def train_ai(genomes, neural_network):
     clock = pygame.time.Clock()
     fb_game = FlappyBird(len(genomes))
-    run = True
-    while run:
+    while True:
         clock.tick(30)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -95,30 +94,43 @@ def evaluation_genomes(genomes, config):
     train_ai(gnomes_list, neural_network)
 
 
-def run_neat(path_config):
+def run(config_file):
+    # Load configuration.
+    config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
+                         neat.DefaultSpeciesSet, neat.DefaultStagnation,
+                         config_file)
 
-    config = neat.Config(neat.DefaultGenome,
-                         neat.DefaultReproduction,
-                         neat.DefaultSpeciesSet,
-                         neat.DefaultStagnation,
-                         path_config)
-
+    # Create the population, which is the top-level object for a NEAT run.
     population = neat.Population(config)
 
+    # Add a stdout reporter to show progress in the terminal.
     population.add_reporter(neat.StdOutReporter(True))
-    statistics_reporter = neat.StatisticsReporter()
-    population.add_reporter(statistics_reporter)
-    # Salva o estado e permite reiniciar o algoritimo em um determinado ponto, em numero de gerações.
-    population.add_reporter(neat.Checkpointer(GENERATIONS))
+    stats = neat.StatisticsReporter()
+    population.add_reporter(stats)
+    population.add_reporter(neat.Checkpointer(CHECK_POINT_SAVE))
 
+    # Run for up to N generations.
     winner = population.run(evaluation_genomes, GENERATIONS)
-
-    # salva o melhor modelo
     with open("best.pickle", "wb") as file:
         pickle.dump(winner, file)
 
+    # Display the winning genome.
+    print('\nBest genome:\n{!s}'.format(winner))
+
+
+def print_nn(config, stats, winner):
+    # Show output of the most fit genome against training data.
+    print('\nOutput:')
+    winner_net = neat.nn.FeedForwardNetwork.create(winner, config)
+    output = winner_net.activate(winner_net.input_nodes)
+    print("input {!r}, expected output {!r}".format(winner_net.input_nodes, output))
+    node_names = {-1: 'A', -2: 'B', 0: 'A XOR B'}
+    visualize.draw_net(config, winner, True, node_names=node_names)
+    visualize.draw_net(config, winner, True, node_names=node_names, prune_unused=True)
+    visualize.plot_stats(stats, ylog=False, view=True)
+    visualize.plot_species(stats, view=True)
 
 if __name__ == "__main__":
     local_dir = os.path.dirname(__file__)
     config_path = os.path.join(local_dir, "config.ini")
-    run_neat(config_path)
+    run(config_path)
