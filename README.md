@@ -15,7 +15,7 @@ Download and install [Graphviz](https://graphviz.org/download/)
   ```bash
     pip install -r requirements.txt
 
-- **If you wants to play** single player, simply execute the `play_game.py` file in the project folder, make sure that the project have the `best.pickle` file:
+- **If you wants to play** single player, simply execute the `play_game.py` file in the project folder:
 
   ```bash
     cd your/folder/path/flappy-bird-ai
